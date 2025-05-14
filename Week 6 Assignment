@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Concepts Demo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1, h2 {
+            color: #2c3e50;
+        }
+        
+        .demo-section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        form {
+            margin-top: 15px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+        
+        .success {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        #colorBox {
+            width: 150px;
+            height: 150px;
+            background-color: #3498db;
+            margin: 20px auto;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        #counterValue {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 15px;
+        }
+        
+        .counter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #toggleContent {
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Concepts Demonstration</h1>
+    
+    <!-- Event Listeners Section -->
+    <div class="demo-section">
+        <h2>Event Listeners</h2>
+        <p>This section demonstrates different types of event listeners.</p>
+        
+        <h3>Click Events</h3>
+        <button id="clickMeBtn">Click Me!</button>
+        <p id="clickOutput"></p>
+        
+        <h3>Mouse Events</h3>
+        <div id="colorBox">Hover over me!</div>
+        
+        <h3>Keyboard Events</h3>
+        <p>Type in this input field:</p>
+        <input type="text" id="keyboardInput" placeholder="Start typing...">
+        <p id="keyboardOutput"></p>
+    </div>
+    
+    <!-- Form Validation Section -->
+    <div class="demo-section">
+        <h2>Form Validation</h2>
+        <p>Try submitting the form with invalid data to see validation in action.</p>
+        
+        <form id="demoForm">
+            <div>
+                <label for="name">Name (required, min 3 chars):</label>
+                <input type="text" id="name" name="name">
+                <div id="nameError" class="error hidden"></div>
+            </div>
+            
+            <div>
+                <label for="email">Email (must be valid):</label>
+                <input type="email" id="email" name="email">
+                <div id="emailError" class="error hidden"></div>
+            </div>
+            
+            <div>
+                <label for="password">Password (min 6 chars):</label>
+                <input type="password" id="password" name="password">
+                <div id="passwordError" class="error hidden"></div>
+            </div>
+            
+            <div>
+                <label for="age">Age (18-99):</label>
+                <input type="number" id="age" name="age" min="18" max="99">
+                <div id="ageError" class="error hidden"></div>
+            </div>
+            
+            <button type="submit">Submit Form</button>
+        </form>
+        <div id="formSuccess" class="success hidden">Form submitted successfully!</div>
+    </div>
+    
+    <!-- Interactive Elements Section -->
+    <div class="demo-section">
+        <h2>Interactive Elements</h2>
+        
+        <h3>Counter</h3>
+        <div class="counter-container">
+            <button id="decrementBtn">-</button>
+            <span id="counterValue">0</span>
+            <button id="incrementBtn">+</button>
+        </div>
+        
+        <h3>Toggle Content</h3>
+        <button id="toggleBtn">Show Content</button>
+        <div id="toggleContent" class="hidden">
+            <p>This content is hidden by default and can be toggled with the button above.</p>
+            <p>JavaScript makes it easy to show and hide elements dynamically.</p>
+        </div>
+        
+        <h3>Dynamic List</h3>
+        <input type="text" id="listItemInput" placeholder="Enter an item">
+        <button id="addItemBtn">Add to List</button>
+        <ul id="itemList"></ul>
+    </div>
+
+    <script>
+        // Event Listeners Section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Click Event
+            const clickMeBtn = document.getElementById('clickMeBtn');
+            const clickOutput = document.getElementById('clickOutput');
+            
+            clickMeBtn.addEventListener('click', function() {
+                clickOutput.textContent = 'Button was clicked! ' + new Date().toLocaleTimeString();
+            });
+            
+            // Mouse Events
+            const colorBox = document.getElementById('colorBox');
+            
+            colorBox.addEventListener('mouseover', function() {
+                this.style.backgroundColor = '#e74c3c';
+                this.textContent = 'Mouse is over!';
+            });
+            
+            colorBox.addEventListener('mouseout', function() {
+                this.style.backgroundColor = '#3498db';
+                this.textContent = 'Hover over me!';
+            });
+            
+            colorBox.addEventListener('click', function() {
+                this.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 300);
+            });
+            
+            // Keyboard Events
+            const keyboardInput = document.getElementById('keyboardInput');
+            const keyboardOutput = document.getElementById('keyboardOutput');
+            
+            keyboardInput.addEventListener('keyup', function(e) {
+                keyboardOutput.textContent = `You typed: ${e.target.value}`;
+            });
+            
+            // Form Validation
+            const demoForm = document.getElementById('demoForm');
+            const formSuccess = document.getElementById('formSuccess');
+            
+            demoForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+                
+                // Name validation
+                const name = document.getElementById('name');
+                const nameError = document.getElementById('nameError');
+                if (name.value.trim().length < 3) {
+                    nameError.textContent = 'Name must be at least 3 characters';
+                    nameError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    nameError.classList.add('hidden');
+                }
+                
+                // Email validation
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('emailError');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.value)) {
+                    emailError.textContent = 'Please enter a valid email address';
+                    emailError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    emailError.classList.add('hidden');
+                }
+                
+                // Password validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('passwordError');
+                if (password.value.length < 6) {
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    passwordError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    passwordError.classList.add('hidden');
+                }
+                
+                // Age validation
+                const age = document.getElementById('age');
+                const ageError = document.getElementById('ageError');
+                if (age.value < 18 || age.value > 99 || !age.value) {
+                    ageError.textContent = 'Age must be between 18 and 99';
+                    ageError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    ageError.classList.add('hidden');
+                }
+                
+                // If form is valid, show success message
+                if (isValid) {
+                    formSuccess.classList.remove('hidden');
+                    setTimeout(() => {
+                        formSuccess.classList.add('hidden');
+                    }, 3000);
+                    demoForm.reset();
+                }
+            });
+            
+            // Interactive Elements
+            // Counter
+            let counter = 0;
+            const counterValue = document.getElementById('counterValue');
+            const incrementBtn = document.getElementById('incrementBtn');
+            const decrementBtn = document.getElementById('decrementBtn');
+            
+            incrementBtn.addEventListener('click', function() {
+                counter++;
+                counterValue.textContent = counter;
+            });
+            
+            decrementBtn.addEventListener('click', function() {
+                if (counter > 0) {
+                    counter--;
+                    counterValue.textContent = counter;
+                }
+            });
+            
+            // Toggle Content
+            const toggleBtn = document.getElementById('toggleBtn');
+            const toggleContent = document.getElementById('toggleContent');
+            
+            toggleBtn.addEventListener('click', function() {
+                if (toggleContent.classList.contains('hidden')) {
+                    toggleContent.classList.remove('hidden');
+                    this.textContent = 'Hide Content';
+                } else {
+                    toggleContent.classList.add('hidden');
+                    this.textContent = 'Show Content';
+                }
+            });
+            
+            // Dynamic List
+            const addItemBtn = document.getElementById('addItemBtn');
+            const listItemInput = document.getElementById('listItemInput');
+            const itemList = document.getElementById('itemList');
+            
+            addItemBtn.addEventListener('click', function() {
+                if (listItemInput.value.trim() !== '') {
+                    const newItem = document.createElement('li');
+                    newItem.textContent = listItemInput.value;
+                    
+                    // Add delete button to each item
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.style.marginLeft = '10px';
+                    deleteBtn.style.fontSize = '12px';
+                    deleteBtn.style.padding = '3px 8px';
+                    
+                    deleteBtn.addEventListener('click', function() {
+                        itemList.removeChild(newItem);
+                    });
+                    
+                    newItem.appendChild(deleteBtn);
+                    itemList.appendChild(newItem);
+                    listItemInput.value = '';
+                }
+            });
+            
+            // Allow adding items with Enter key
+            listItemInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addItemBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
