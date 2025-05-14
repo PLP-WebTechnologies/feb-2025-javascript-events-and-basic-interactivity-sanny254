@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS Interactive Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    .hidden {
+      display: none;
+    }
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      cursor: pointer;
+    }
+    .tab-content {
+      display: none;
+      margin-top: 1rem;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    .error {
+      color: red;
+      font-size: 0.9rem;
+    }
+    .gallery img {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>JS Interactive Demo</h1>
+
+  <!-- Event Listeners & Interactions -->
+  <button class="btn" id="colorBtn">Click to Change Color</button>
+  <p id="hoverPara">Hover over this text!</p>
+  <input type="text" id="keypressInput" placeholder="Type something..." />
+  <p id="keypressOutput"></p>
+
+  <!-- Secret Double Click Action -->
+  <button class="btn" id="secretBtn">Double-Click Me</button>
+  <p id="secretMessage" class="hidden">🎉 Secret unlocked!</p>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab" data-tab="1">Tab 1</div>
+    <div class="tab" data-tab="2">Tab 2</div>
+    <div class="tab" data-tab="3">Tab 3</div>
+  </div>
+  <div class="tab-content" id="content-1">Content for Tab 1</div>
+  <div class="tab-content" id="content-2">Content for Tab 2</div>
+  <div class="tab-content" id="content-3">Content for Tab 3</div>
+
+  <!-- Image Gallery -->
+  <div class="gallery">
+    <img src="https://via.placeholder.com/100" alt="Image 1" />
+    <img src="https://via.placeholder.com/100" alt="Image 2" />
+    <img src="https://via.placeholder.com/100" alt="Image 3" />
+  </div>
+
+  <!-- Form Validation -->
+  <form id="sampleForm">
+    <h2>Form Validation</h2>
+    <label>Email:</label><br />
+    <input type="email" id="email" required /><br />
+    <span class="error" id="emailError"></span><br />
+
+    <label>Password:</label><br />
+    <input type="password" id="password" required /><br />
+    <span class="error" id="passwordError"></span><br />
+
+    <button type="submit" class="btn">Submit</button>
+  </form>
+
+  <script>
+    // Button click event
+    document.getElementById("colorBtn").addEventListener("click", function () {
+      this.style.backgroundColor =
+        this.style.backgroundColor === "blue" ? "#4CAF50" : "blue";
+    });
+
+    // Hover effect
+    const hoverPara = document.getElementById("hoverPara");
+    hoverPara.addEventListener("mouseenter", () => hoverPara.textContent = "You're hovering!");
+    hoverPara.addEventListener("mouseleave", () => hoverPara.textContent = "Hover over this text!");
+
+    // Keypress detection
+    document.getElementById("keypressInput").addEventListener("keyup", function (e) {
+      document.getElementById("keypressOutput").textContent = `You pressed: ${e.key}`;
+    });
+
+    // Double click secret
+    document.getElementById("secretBtn").addEventListener("dblclick", function () {
+      document.getElementById("secretMessage").classList.remove("hidden");
+    });
+
+    // Tabs
+    const tabs = document.querySelectorAll(".tab");
+    const tabContents = document.querySelectorAll(".tab-content");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        const id = tab.dataset.tab;
+        tabContents.forEach(c => c.classList.remove("active"));
+        document.getElementById(`content-${id}`).classList.add("active");
+      });
+    });
+
+    // Form validation
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const form = document.getElementById("sampleForm");
+
+    email.addEventListener("input", () => {
+      if (!email.validity.valid) {
+        emailError.textContent = "Please enter a valid email.";
+      } else {
+        emailError.textContent = "";
+      }
+    });
+
+    password.addEventListener("input", () => {
+      if (password.value.length < 8) {
+        passwordError.textContent = "Password must be at least 8 characters.";
+      } else {
+        passwordError.textContent = "";
+      }
+    });
+
+    form.addEventListener("submit", function (e) {
+      if (!email.validity.valid || password.value.length < 8) {
+        e.preventDefault();
+        alert("Please fix the errors before submitting.");
+      }
+    });
+  </script>
+</body>
+</html>
